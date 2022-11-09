@@ -1,0 +1,52 @@
+{
+  "name": "e-commerce-drinks-order-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/server.js",
+    "test": "jest --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MPT-Emeka/E-Commerce-Drinks-Order-Service.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MPT-Emeka/E-Commerce-Drinks-Order-Service/issues"
+  },
+  "homepage": "https://github.com/MPT-Emeka/E-Commerce-Drinks-Order-Service#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "debug": "^4.3.4",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "flutterwave-node-v3": "^1.0.11",
+    "fs": "^0.0.1-security",
+    "http-errors": "^2.0.0",
+    "jade": "^1.11.0",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^3.1.2",
+    "mongoose": "^6.6.6",
+    "mongoose-autopopulate": "^0.16.1",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.8.0",
+    "nodemon": "^2.0.20",
+    "path": "^0.12.7",
+    "sharp": "^0.31.1",
+    "validator": "^13.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.2.2",
+    "supertest": "^6.3.1"
+  },
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  }
+}
