@@ -7,6 +7,7 @@ const app = require("../app.js");
 app.use(express.json());
 
 
-app.listen(process.env.DB_PORT || 5000, () => {
+app.listen(process.env.
+  PORT || 3000, () => {
   console.log("APP IS LISTENING ON PORT " + process.env.DB_PORT);
 });
