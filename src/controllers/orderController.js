@@ -73,10 +73,6 @@ const createOrder =  async (req, res) => {
               message: "Order created Successfully!",
               return : savedOrder});
 
-   
-
-             
-
               } else {
                   const newOrder = new Order({
                     userId: userId , 
@@ -131,7 +127,6 @@ const createOrder =  async (req, res) => {
     }
 
     const order = await Order.findOne({id});
-    console.log(order)
     if(order)
          {
           order.address = req.body.address;
@@ -148,7 +143,6 @@ const createOrder =  async (req, res) => {
           })
              }
         }catch (err) {
-          console.log(err)
           return res.status(500).json(err);
       }}
     
@@ -241,6 +235,15 @@ const getUserOrder = async (req, res) => {
  //GET ALL ORDERS
 const getAllOrders = async (req, res) => {
     try {
+
+      const user = req.user; 
+      if (user.role.includes("user")) {
+        return response.status(400).json({
+            status: false,
+            message: "only gulp admins can fetch all Orders"
+        })
+    }
+
         const order = await Order.find({});
         res.status(200).json({
             message: "All Orders have been retrieved!",
