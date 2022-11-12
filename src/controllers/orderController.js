@@ -29,7 +29,7 @@ const createOrder =  async (req, res) => {
             if (!orderCart) {
                 return res.status(404).send({
                     status: false,
-                    message: "order not found"
+                    message: "cart not found"
                 })
             };
 
@@ -72,6 +72,11 @@ const createOrder =  async (req, res) => {
             return res.status(200).json({
               message: "Order created Successfully!",
               return : savedOrder});
+
+   
+
+             
+
               } else {
                   const newOrder = new Order({
                     userId: userId , 
@@ -86,7 +91,7 @@ const createOrder =  async (req, res) => {
               }
 
           
-
+             
 
 
 
@@ -153,12 +158,22 @@ const createOrder =  async (req, res) => {
  const deleteOrder = async (req, res) => {
     try {
       
+
+    
+
+     // const userID = req.params.id;
+    const userId = req.params.userId;
+    const useR = req.user; // identify the user
+    if (useR.id !== userId) {   // !user && 
+      return res
+        .status(401)
+        .json({ success: false, message: "unauthorized user" });
+    }
       
 
 
         //const order = await Order.findOne({id});
      // const { userId} = req.params;
-      const userId = req.params.userId;
       const orderId = req.body.orderId;
       const user = await User.findById(userId);
       if(!user)
@@ -175,7 +190,6 @@ const createOrder =  async (req, res) => {
                 message: `Order with Id: ${orderId} does not exist!`
             })
         }else {
-
       await Order.findByIdAndDelete(orderId)
        return  res.status(200).json({
             message: 'Order deleted successfully'
@@ -192,7 +206,19 @@ const createOrder =  async (req, res) => {
 // GET ONE USER ORDER
 const getUserOrder = async (req, res) => {
     try {
-      const { userId } = req.params;
+
+    //const userId = req.params.userId;
+
+    const { userId } = req.params;
+    const useR = req.user; // identify the user
+    if (useR.id !== userId) {   // !user && 
+      return res
+        .status(401)
+        .json({ success: false, message: "unauthorized user" });
+    }
+
+
+      
       const user = await User.findById(userId);
       if(!user)
         {

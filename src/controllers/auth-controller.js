@@ -106,10 +106,9 @@ exports.logout = async (req, res) => {
   }
 };
 
-const requestPasswordReset = async (email) => {
+const requestPasswordReset = async (req) => {
   try {
-    const user = await User.findOne({ email });
-
+    const user = await User.findOne({ email : req.body.email });
     if (!user) return { message: "User does not exist" };
     let token = await Token.findOne({ userId: user._id });
     if (token) await token.deleteOne();
@@ -186,7 +185,7 @@ const resetPassword = async (userId, token, password) => {
 exports.resetPasswordRequestController = async (req, res, next) => {
   try {
     const requestPasswordResetService = await requestPasswordReset(
-      req.body.email
+      req
     );
     return res.status(200).json({ requestPasswordResetService });
   } catch (error) {
@@ -202,8 +201,8 @@ exports.resetPasswordController = async (req, res, next) => {
       req.body.password,
       req.body.confirmPassword
     );
-    if (password !== confirmPassword) {
-        res.status(400).json({ message: "Passwords do not match" });
+    if (req.body.password !== req.body.confirmPassword) {
+        return res.status(400).json({ "message": "Passwords do not match" });
     }
     return res.status(200).json(resetPasswordService); 
   } catch (error) {

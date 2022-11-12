@@ -9,5 +9,5 @@ app.use(express.json());
 
 app.listen(process.env.
   PORT || 3000, () => {
-  console.log("APP IS LISTENING ON PORT " + process.env.DB_PORT);
+  console.log("APP IS LISTENING ON PORT " + 3000);
 });

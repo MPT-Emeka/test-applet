@@ -3,7 +3,7 @@ const Flutterwave = require("flutterwave-node-v3");
 const Order = require("../models/orderModel");
 //const OrderedItems = require("../models/orderedItems");
 const nodemailer = require("nodemailer");
-//const Cart = require("../models/cartModel");
+const Cart = require("../models/cartModel");
 fs = require('fs');
 
 const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_KEY);
@@ -11,13 +11,19 @@ const flw = new Flutterwave(process.env.FLW_PUBLIC_KEY, process.env.FLW_SECRET_K
 //Checkout ordered foods
 exports.checkoutOrder = async (req, res) => {
     try {
-        const userId = req.user._id;
+        const userId = req.user._id.toString();
         let payload = req.body;
         
         let order = await Order.findOne({userId});
         
         let user = req.user;
         
+        if (user.id !== userId) {   // !user && 
+            return res
+              .status(401)
+              .json({ success: false, message: "unauthorized user" });
+          }
+
         if(order) {
             payload = {
                 ...payload, 
@@ -81,6 +87,15 @@ exports.checkoutOrder = async (req, res) => {
                         });
                     });
                 }
+
+                let orderToDelete = await Order.findOne({userId});
+
+                await orderToDelete.delete();
+
+                let cartToDelete = await Cart.findOne({ _id : userId });
+    
+                  await cartToDelete.delete();
+
 
                 // await OrderedItems.create({
                 //     userId: req.user.id,
