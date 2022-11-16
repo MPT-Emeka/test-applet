@@ -101,7 +101,7 @@ const addToCart = async (req, res) => {
         });
       } else {
         // user has cart but doesnt have product in his cart
-        console.log(" user has cart but doesnt have product in his cart");
+       // console.log(" user has cart but doesnt have product in his cart");
         cart.products.push({
           productID: req.body.productId,
           product: req.body.productId, //change this to product: productExist
@@ -324,7 +324,7 @@ const deleteCart = async (req, res) => {
     };
     const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
     if (cart) {
-      console.log("user has a cart");
+     // console.log("user has a cart");
     // let product = cart.products.find((item) => {
     //     foreach (item.productID in product) {
     //         productExist.amountInStock = item.quantity

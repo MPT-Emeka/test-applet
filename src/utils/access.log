@@ -1051,3 +1051,11 @@
 [0mPOST /api/v1/auths/reset-password/95dc66612218a4bbf9de9e8e89cbd93fd99ffbaa2fbdacd415fcd48ed139fa6b [33m404[0m 3.527 ms - 232[0m
 [0mPOST /api/v1/auths/resetpassword/95dc66612218a4bbf9de9e8e89cbd93fd99ffbaa2fbdacd415fcd48ed139fa6b [32m200[0m 700.323 ms - 58[0m
 [0mPOST /api/v1/auths/signin [32m200[0m 224.478 ms - 425[0m
+[0mPATCH /api/v1/products/product/6360e9fec8ef955961ca547d [32m200[0m 910.774 ms - 595[0m
+[0mGET /api/v1/products/product/6360e9fec8ef955961ca547d [32m200[0m 1856.961 ms - 572[0m
+[0mPOST /api/v1/auths/signin [32m200[0m 687.986 ms - 425[0m
+[0mPOST /api/v1/auths/logout/6370055ada9205707e2c6c1c [32m200[0m 158.881 ms - 44[0m
+[0mPOST /api/v1/products/product [32m201[0m 2353.268 ms - 622[0m
+[0mDELETE /api/v1/products/product/?id=6360ec80c8ef955961ca54b4 [32m200[0m 1018.012 ms - 627[0m
+[0mGET /api/v1/products/product?brand=Baileys [32m200[0m 2096.252 ms - 557[0m
+[0mGET /api/v1/products/product [32m200[0m 402.359 ms - 4975[0m

@@ -206,7 +206,7 @@ exports.resetPasswordController = async (req, res, next) => {
     }
     return res.status(200).json(resetPasswordService); 
   } catch (error) {
-    res.status(400).json({ message: error });
+    res.status(400).json({ "message": error });
   }
 };
 

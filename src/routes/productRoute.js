@@ -13,7 +13,7 @@ productRouter
   .get( getProductListing ) 
   .delete(auth, deleteProduct);
 
-productRouter.put("/product/:id", auth, updateProduct);
+productRouter.patch("/product/:id", auth, updateProduct);
 productRouter.get("/product/:id", getProduct );
 
 module.exports = productRouter;

@@ -7,6 +7,31 @@ const nodemailer = require("nodemailer");
 fs = require('fs');
 
 
+
+                // This updates the stock of the products in store after an order has been created. 
+                const updateStock = async (products) => {
+                  // let quantity = 1;
+                   let productExist2;
+                   for (let index = 0; index < products.length; index++) { // or add index <= length
+                   const product = products[index];
+                 // quantity += product.quantity;
+                   productExist2 = await Product.findById(product.productID) 
+                       if(productExist2.amountInStock < product.quantity) {
+                           return res.status(401).send({
+                               status: false,
+                               message: `This ${productExist2.productName} is temporarily out of stock`
+                           })
+                       } else {
+                           productExist2.amountInStock -= product.quantity || 1; // pEs = pEs - 1
+                   await productExist2.save();
+                   }
+                   //return productExist2;
+               }
+               return productExist2;
+               };
+
+
+
 // CREATE AN ORDER
 const createOrder =  async (req, res) => {
   try {
@@ -33,27 +58,27 @@ const createOrder =  async (req, res) => {
                 })
             };
 
-            // This updates the stock of the products in store after an order has been created. 
-            const updateStock = async (products) => {
-               // let quantity = 1;
-                let productExist2;
-                for (let index = 0; index < products.length; index++) { // or add index <= length
-                const product = products[index];
-              // quantity += product.quantity;
-                productExist2 = await Product.findById(product.productID) 
-                    if(productExist2.amountInStock < product.quantity) {
-                        return res.status(401).send({
-                            status: false,
-                            message: `This ${productExist2.productName} is temporarily out of stock`
-                        })
-                    } else {
-                        productExist2.amountInStock -= product.quantity || 1; // pEs = pEs - 1
-                await productExist2.save();
-                }
-                //return productExist2;
-            }
-            return productExist2;
-            };
+            // // This updates the stock of the products in store after an order has been created. 
+            // const updateStock = async (products) => {
+            //    // let quantity = 1;
+            //     let productExist2;
+            //     for (let index = 0; index < products.length; index++) { // or add index <= length
+            //     const product = products[index];
+            //   // quantity += product.quantity;
+            //     productExist2 = await Product.findById(product.productID) 
+            //         if(productExist2.amountInStock < product.quantity) {
+            //             return res.status(401).send({
+            //                 status: false,
+            //                 message: `This ${productExist2.productName} is temporarily out of stock`
+            //             })
+            //         } else {
+            //             productExist2.amountInStock -= product.quantity || 1; // pEs = pEs - 1
+            //     await productExist2.save();
+            //     }
+            //     //return productExist2;
+            // }
+            // return productExist2;
+            // };
             updateStock(orderCart.products);
 
         
@@ -118,7 +143,6 @@ const createOrder =  async (req, res) => {
   try {
 
     const id = req.params.userId;
-
     const user = req.user; // identify the user
     if (user.id !== id) {   // !user && 
       return res
@@ -163,11 +187,6 @@ const createOrder =  async (req, res) => {
         .status(401)
         .json({ success: false, message: "unauthorized user" });
     }
-      
-
-
-        //const order = await Order.findOne({id});
-     // const { userId} = req.params;
       const orderId = req.body.orderId;
       const user = await User.findById(userId);
       if(!user)
@@ -213,13 +232,15 @@ const getUserOrder = async (req, res) => {
 
 
       
-      const user = await User.findById(userId);
+      const user = await User.findById(userId); //check code
       if(!user)
         {
           return res.status(400).json({
             message: "Invalid User! "
           })
         }
+
+
         const order = await Order.findOne({ userId })
         return res.status(200).json({
             data: order
