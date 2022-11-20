@@ -7,10 +7,18 @@ const QueryMethod = require("../helpers/query")
 
 
 exports.createProduct = async (request, response) => {  
+  //console.log(request.user)
   try {
-    const user = await User.findById(request.body.gulp);
+    const user = request.user
+    const userId = user._id
+    if (!userId) {  
+      return response
+      .status(403)
+      .json({ success: false, message: "unauthorized user" });
+    }  
+
     if (user.role.includes("user")) {
-        return response.status(400).send({
+        return response.status(403).send({
             status: false,
             message: "only gulp admins can upload drinks"
         })
@@ -46,10 +54,16 @@ exports.createProduct = async (request, response) => {
 
 exports.updateProduct = async (request, response) => {
   try {
-
     const user = request.user
+    const userId = user._id
+    if (!userId) {  
+      return response
+      .status(403)
+      .json({ success: false, message: "unauthorized user" });
+    }  
+
     if (user.role.includes("user")) {
-        return response.status(400).send({
+        return response.status(403).send({
             status: false,
             message: "only gulp admins can update products"
         })
@@ -151,8 +165,15 @@ exports.deleteProduct = async (request, response) => {
   try {
 
     const user = request.user
+    const userId = user._id
+    if (!userId) {  
+      return response
+      .status(403)
+      .json({ success: false, message: "unauthorized user" });
+    }  
+
     if (user.role.includes("user")) {
-        return response.status(400).send({
+        return response.status(403).send({
             status: false,
             message: "only gulp admins can delete drinks"
         })

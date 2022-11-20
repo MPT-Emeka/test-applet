@@ -6,18 +6,14 @@ const QueryMethod = require("../helpers/query")
 exports.updateUser = async (req, res) => {
   try {
   
-    const id = req.params.userId;
+    //const id = req.params.userId;
     const user = req.user; // identify the user
-    if (user.id !== id) {   // !user && 
+    const id = user._id
+    if (!id) {  
       return res
-        .status(401)
+        .status(403)
         .json({ success: false, message: "unauthorized user" });
     }
-
-
-
-
-
 
     const findUser = await User.findById(id);
     findUser.name = req.body.name;
@@ -37,11 +33,12 @@ exports.updateUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
 
-    const id = req.params.id;
+    //const id = req.params.id;
     const user = req.user; // identify the user
-    if (user.id !== id) {   // !user && 
+    const id = user._id
+    if (!id) {   // !user && 
       return res
-        .status(401)
+        .status(403)
         .json({ success: false, message: "unauthorized user" });
     }
 
@@ -77,6 +74,13 @@ exports.getAllUsers = async (request, response) => {
   try {
 
     const user = request.user
+    const userId = user._id
+    if (!userId) {  
+      return response
+      .status(403)
+      .json({ success: false, message: "unauthorized user" });
+    }  
+
     if (user.role.includes("user")) {
         return response.status(400).send({
             status: false,
@@ -118,6 +122,13 @@ exports.deleteUser = async (request, response) => {
   try {
 
     const user = request.user
+    const userId = user._id
+    if (!userId) {  
+      return response
+      .status(403)
+      .json({ success: false, message: "unauthorized user" });
+    }  
+
     // const user = await User.findById(request.headers.id);
      if (user.role.includes("user")) {
          return response.status(400).send({

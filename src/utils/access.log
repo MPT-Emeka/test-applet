@@ -1059,3 +1059,6 @@
 [0mDELETE /api/v1/products/product/?id=6360ec80c8ef955961ca54b4 [32m200[0m 1018.012 ms - 627[0m
 [0mGET /api/v1/products/product?brand=Baileys [32m200[0m 2096.252 ms - 557[0m
 [0mGET /api/v1/products/product [32m200[0m 402.359 ms - 4975[0m
+[0mPOST /api/v1/products/product [32m201[0m 539.454 ms - 622[0m
+[0mPOST /api/v1/products/product [33m404[0m 225.686 ms - 138[0m
+[0mPOST /api/v1/products/product [32m201[0m 553.743 ms - 622[0m

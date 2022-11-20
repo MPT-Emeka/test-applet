@@ -35,17 +35,17 @@ fs = require('fs');
 // CREATE AN ORDER
 const createOrder =  async (req, res) => {
   try {
-    const userId = req.params.userId;
+    //const userId = user._id // req.params.userId;
     const user = req.user; // identify the user
-    if (user.id !== userId) {   // !user && 
+    const userId = user._id
+    if (!user) { 
       return res
-        .status(401)
+        .status(403)
         .json({ success: false, message: "unauthorized user" });
     }
 
 
-         
-        // const user = await User.findById(userId); 
+
          if(user)
          {
             const orderCart = await Cart.findOne({
@@ -142,15 +142,15 @@ const createOrder =  async (req, res) => {
  const updateOrder = async (req, res) => {
   try {
 
-    const id = req.params.userId;
-    const user = req.user; // identify the user
-    if (user.id !== id) {   // !user && 
+    const userId = req.params.userId;
+    const user = await User.findById(userId);
+    if (!user) {  
       return res
-        .status(401)
+        .status(403)
         .json({ success: false, message: "unauthorized user" });
     }
 
-    const order = await Order.findOne({id});
+    const order = await Order.findOne({user});
     if(order)
          {
           order.address = req.body.address;
@@ -175,26 +175,17 @@ const createOrder =  async (req, res) => {
  //DELETE AN ORDER
  const deleteOrder = async (req, res) => {
     try {
-      
-
-    
 
      // const userID = req.params.id;
     const userId = req.params.userId;
-    const useR = req.user; // identify the user
-    if (useR.id !== userId) {   // !user && 
-      return res
-        .status(401)
-        .json({ success: false, message: "unauthorized user" });
-    }
       const orderId = req.body.orderId;
       const user = await User.findById(userId);
       if(!user)
         {
-          return res.status(400).json({
-            message: "Invalid User ID! "
-          })
-        }
+          return res
+          .status(403)
+          .json({ success: false, message: "unauthorized user" });
+      }
       const order = await Order.findById(orderId) // Order.findOne({ userId: orderId }); 
         if (!order) {
          // console.log(order)
@@ -220,25 +211,14 @@ const createOrder =  async (req, res) => {
 const getUserOrder = async (req, res) => {
     try {
 
-    //const userId = req.params.userId;
-
-    const { userId } = req.params;
-    const useR = req.user; // identify the user
-    if (useR.id !== userId) {   // !user && 
-      return res
-        .status(401)
-        .json({ success: false, message: "unauthorized user" });
-    }
-
-
-      
+    const { userId } = req.params; 
       const user = await User.findById(userId); //check code
       if(!user)
         {
-          return res.status(400).json({
-            message: "Invalid User! "
-          })
-        }
+          return res
+          .status(403)
+          .json({ success: false, message: "unauthorized user" });
+      }
 
 
         const order = await Order.findOne({ userId })
@@ -258,21 +238,28 @@ const getAllOrders = async (req, res) => {
     try {
 
       const user = req.user; 
+      const userId = user._id
+      if (!userId) {  
+        return res
+        .status(403)
+        .json({ success: false, message: "unauthorized user" });
+      }  
+      
       if (user.role.includes("user")) {
-        return response.status(400).json({
+        return res.status(400).json({
             status: false,
             message: "only gulp admins can fetch all Orders"
         })
     }
 
         const order = await Order.find({});
-        res.status(200).json({
+        return res.status(200).json({
             message: "All Orders have been retrieved!",
             data: [order],
             results: order.length
           });
       } catch (err) {
-        res.status(404).json({
+        return res.status(404).json({
             message: " Error!",
             data: err});
       }
