@@ -6,10 +6,10 @@ const QueryMethod = require("../helpers/query")
 exports.updateUser = async (req, res) => {
   try {
   
-    //const id = req.params.userId;
+    const id = req.params.id;
     const user = req.user; // identify the user
-    const id = user._id
-    if (!id) {  
+    const userId = user._id
+    if (!userId) {   // !user && 
       return res
         .status(403)
         .json({ success: false, message: "unauthorized user" });
@@ -33,10 +33,10 @@ exports.updateUser = async (req, res) => {
 exports.getUser = async (req, res) => {
   try {
 
-    //const id = req.params.id;
+    const id = req.params.id;
     const user = req.user; // identify the user
-    const id = user._id
-    if (!id) {   // !user && 
+    const userId = user._id
+    if (!userId) {   // !user && 
       return res
         .status(403)
         .json({ success: false, message: "unauthorized user" });
@@ -84,7 +84,7 @@ exports.getAllUsers = async (request, response) => {
     if (user.role.includes("user")) {
         return response.status(400).send({
             status: false,
-            message: "only gulp admins can delete users"
+            message: "only gulp admins can fetch all users"
         })
     };
 

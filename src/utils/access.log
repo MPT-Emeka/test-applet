@@ -1062,3 +1062,16 @@
 [0mPOST /api/v1/products/product [32m201[0m 539.454 ms - 622[0m
 [0mPOST /api/v1/products/product [33m404[0m 225.686 ms - 138[0m
 [0mPOST /api/v1/products/product [32m201[0m 553.743 ms - 622[0m
+[0mPATCH /api/v1/carts/cart/add [33m400[0m 7.359 ms - 35[0m
+[0mPOST /api/v1/auths/signin [32m200[0m 281.208 ms - 425[0m
+[0mPATCH /api/v1/carts/cart/add [32m200[0m 857.329 ms - 830[0m
+[0mPATCH /api/v1/carts/cart/remove [33m409[0m 824.859 ms - 78[0m
+[0mGET /api/v1/carts/cart [32m200[0m 590.304 ms - 832[0m
+[0mDELETE /api/v1/carts/cart [32m200[0m 532.757 ms - 54[0m
+[0mPATCH /api/v1/carts/cart/add [32m200[0m 884.133 ms - 830[0m
+[0mPOST /api/v1/orders/order/create [33m404[0m 599.015 ms - 43[0m
+[0mPOST /api/v1/orders/order/create [32m200[0m 757.712 ms - 1108[0m
+[0mPATCH /api/v1/orders/order/update/6370055ada9205707e2c6c1c [32m200[0m 945.813 ms - 1137[0m
+[0mGET /api/v1/users/user [33m400[0m 170.311 ms - 62[0m
+[0mGET /api/v1/users/user [33m400[0m 157.038 ms - 62[0m
+[0mGET /api/v1/users/user/6370055ada9205707e2c6c1c [32m200[0m 369.526 ms - 178[0m
