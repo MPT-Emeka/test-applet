@@ -14,7 +14,7 @@ const orderRouter = require("./src/routes/orderRoute");
 const authRoutes = require("./src/routes/auth-route");
 const cookieParser = require("cookie-parser");
 const mongoose = require("mongoose");
-
+const cors = require("cors"); 
 app.use(express.json());
 
 app.use(cookieParser());
@@ -25,6 +25,8 @@ var accessLogStream = fs.createWriteStream(
     flags: "a",
   }
 );
+
+app.use(cors())
 
 app.use(morgan("dev", { stream: accessLogStream }));
 

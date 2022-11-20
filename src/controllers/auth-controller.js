@@ -15,6 +15,11 @@ const maxAge = 3 * 24 * 60 * 60;
 exports.signUp = async (req, res) => {
   try {
     const { name, email, password, confirmPassword, phoneNumber, role } = req.body;
+    if(!name && !email && !phoneNumber && !role && !password){
+      return res.status(400).json({error: 'All fields are required'})
+    }
+ 
+
     if (password !== confirmPassword) {
       res.status(400).json({ message: "Passwords do not match" });
     }
@@ -51,7 +56,7 @@ exports.signUp = async (req, res) => {
       .json({ message: "Password is less than 6 characters" });
   } catch (error) {
     const errors = handleError(error);
-    res.status(404).json({ errors });
+    return res.status(404).json({ errors });
   }
 };
 
