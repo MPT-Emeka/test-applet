@@ -7,22 +7,15 @@ const QueryMethod = require("../helpers/query")
 
 
 exports.createProduct = async (request, response) => {  
-  //console.log(request.user)
   try {
     const user = request.user
     const userId = user._id
     if (!userId) {  
       return response
-      .status(403)
+      .status(401)
       .json({ success: false, message: "unauthorized user" });
     }  
 
-    if (user.role.includes("user")) {
-        return response.status(403).send({
-            status: false,
-            message: "only gulp admins can upload drinks"
-        })
-    }
     const productCt = await Product.findOne({ productName: request.body.productName }); 
     if (user && productCt) {  
       productCt.amountInStock += 1;
@@ -54,33 +47,7 @@ exports.createProduct = async (request, response) => {
 
 exports.updateProduct = async (request, response) => {
   try {
-    const user = request.user
-    const userId = user._id
-    if (!userId) {  
-      return response
-      .status(403)
-      .json({ success: false, message: "unauthorized user" });
-    }  
-
-    if (user.role.includes("user")) {
-        return response.status(403).send({
-            status: false,
-            message: "only gulp admins can update products"
-        })
-    }
-
-
-
-    // const user = await User.findById(request.headers.id);
-    // if (user.role.includes("user")) {
-    //     return response.status(400).send({
-    //         status: false,
-    //         message: "only gulp admins can update drinks"
-    //     })
-    // }
-
     const findProduct = await Product.findById(request.params.id);
-    //console.log(findProduct)
     if (findProduct) {
       findProduct.price = request.body.price;
       findProduct.description = request.body.description;
@@ -168,27 +135,10 @@ exports.deleteProduct = async (request, response) => {
     const userId = user._id
     if (!userId) {  
       return response
-      .status(403)
+      .status(401)
       .json({ success: false, message: "unauthorized user" });
     }  
 
-    if (user.role.includes("user")) {
-        return response.status(403).send({
-            status: false,
-            message: "only gulp admins can delete drinks"
-        })
-    }
-
-
-
-
-    // const user = await User.findById(request.headers.id);
-    // if (user.role.includes("user")) {
-    //     return response.status(400).send({
-    //         status: false,
-    //         message: "only gulp admins can delete drinks"
-    //     })
-    // }
     const { id } = request.query;
     const findProduct = await Product.findById(id)
     if(findProduct) {

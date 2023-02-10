@@ -9,11 +9,11 @@ const { createProduct, updateProduct, getProduct, getProductListing, deleteProdu
 
 productRouter
   .route("/product")
-  .post(auth, createProduct)
+  .post(auth, checkUser("gulp"), createProduct)
   .get( getProductListing ) 
-  .delete(auth, deleteProduct);
+  .delete(auth, checkUser("gulp"), deleteProduct);
 
-productRouter.patch("/product/:id", auth, updateProduct);
+productRouter.patch("/product/:id", auth, checkUser("gulp"), updateProduct);
 productRouter.get("/product/:id", getProduct );
 
 module.exports = productRouter;

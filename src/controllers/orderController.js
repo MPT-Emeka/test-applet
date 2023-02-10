@@ -25,7 +25,6 @@ fs = require('fs');
                            productExist2.amountInStock -= product.quantity || 1; // pEs = pEs - 1
                    await productExist2.save();
                    }
-                   //return productExist2;
                }
                return productExist2;
                };
@@ -35,17 +34,8 @@ fs = require('fs');
 // CREATE AN ORDER
 const createOrder =  async (req, res) => {
   try {
-    //const userId = user._id // req.params.userId;
     const user = req.user; // identify the user
     const userId = user._id
-    if (!user) { 
-      return res
-        .status(403)
-        .json({ success: false, message: "unauthorized user" });
-    }
-
-
-
          if(user)
          {
             const orderCart = await Cart.findOne({
@@ -57,31 +47,7 @@ const createOrder =  async (req, res) => {
                     message: "cart not found"
                 })
             };
-
-            // // This updates the stock of the products in store after an order has been created. 
-            // const updateStock = async (products) => {
-            //    // let quantity = 1;
-            //     let productExist2;
-            //     for (let index = 0; index < products.length; index++) { // or add index <= length
-            //     const product = products[index];
-            //   // quantity += product.quantity;
-            //     productExist2 = await Product.findById(product.productID) 
-            //         if(productExist2.amountInStock < product.quantity) {
-            //             return res.status(401).send({
-            //                 status: false,
-            //                 message: `This ${productExist2.productName} is temporarily out of stock`
-            //             })
-            //         } else {
-            //             productExist2.amountInStock -= product.quantity || 1; // pEs = pEs - 1
-            //     await productExist2.save();
-            //     }
-            //     //return productExist2;
-            // }
-            // return productExist2;
-            // };
             updateStock(orderCart.products);
-
-        
 
             // Order is saved to the DB below
 
@@ -110,21 +76,6 @@ const createOrder =  async (req, res) => {
                   message: "Order created Successfully!",
                   return : savedOrder});
               }
-
-          
-             
-
-
-
-            // const reqBody = req.body.cartId
-            // const deletedCart = await Cart.findOneAndDelete(reqBody);
-            // if(!deletedCart)
-            // {
-            //     return res.status(400).json({
-            //     message: "Cart cannot be deleted!"
-            //     })
-            // }
-            
          } else {
             return res.status(404).json({
             message: "Invalid User!",
@@ -142,14 +93,7 @@ const createOrder =  async (req, res) => {
  const updateOrder = async (req, res) => {
   try {
 
-    const userId = req.params.userId;
-    const user = await User.findById(userId);
-    if (!user) {  
-      return res
-        .status(403)
-        .json({ success: false, message: "unauthorized user" });
-    }
-
+    const user = req.user; // identify the user
     const order = await Order.findOne({user});
     if(order)
          {
@@ -175,20 +119,9 @@ const createOrder =  async (req, res) => {
  //DELETE AN ORDER
  const deleteOrder = async (req, res) => {
     try {
-
-     // const userID = req.params.id;
-    const userId = req.params.userId;
       const orderId = req.body.orderId;
-      const user = await User.findById(userId);
-      if(!user)
-        {
-          return res
-          .status(403)
-          .json({ success: false, message: "unauthorized user" });
-      }
       const order = await Order.findById(orderId) // Order.findOne({ userId: orderId }); 
         if (!order) {
-         // console.log(order)
             return res.status(400).json({
                 status: 'fail',
                 message: `Order with Id: ${orderId} does not exist!`
@@ -211,20 +144,20 @@ const createOrder =  async (req, res) => {
 const getUserOrder = async (req, res) => {
     try {
 
-    const { userId } = req.params; 
-      const user = await User.findById(userId); //check code
-      if(!user)
-        {
-          return res
-          .status(403)
-          .json({ success: false, message: "unauthorized user" });
-      }
+      const user = req.user; // identify the user
+      //const userId = user._id
 
-
-        const order = await Order.findOne({ userId })
-        return res.status(200).json({
+        const order = await Order.findOne({ userId: user._id })
+        console.log(order)
+        if(order) {
+            return res.status(200).json({
             data: order
         })
+        } else {
+          return res.status(404).json({
+            message: "order not found"
+        })
+        };
     } catch (err) {
         return res.status(400).json({
             status: 'fail',
@@ -236,7 +169,6 @@ const getUserOrder = async (req, res) => {
  //GET ALL ORDERS
 const getAllOrders = async (req, res) => {
     try {
-
       const user = req.user; 
       const userId = user._id
       if (!userId) {  
@@ -244,13 +176,6 @@ const getAllOrders = async (req, res) => {
         .status(403)
         .json({ success: false, message: "unauthorized user" });
       }  
-      
-      if (user.role.includes("user")) {
-        return res.status(400).json({
-            status: false,
-            message: "only gulp admins can fetch all Orders"
-        })
-    }
 
         const order = await Order.find({});
         return res.status(200).json({

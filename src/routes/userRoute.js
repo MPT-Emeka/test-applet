@@ -8,7 +8,7 @@ const router = express.Router();
 
 const { updateUser, getUser, getAllUsers, deleteUser } = UserController;
 
-router.route("/user").get(auth, getAllUsers).delete(auth, deleteUser);
+router.route("/user").get(auth, checkUser("gulp"), getAllUsers).delete(auth, checkUser("gulp"), deleteUser);
 
 router.route("/user/:id").get(auth, getUser).put(auth, updateUser);
 

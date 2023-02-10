@@ -1075,3 +1075,16 @@
 [0mGET /api/v1/users/user [33m400[0m 170.311 ms - 62[0m
 [0mGET /api/v1/users/user [33m400[0m 157.038 ms - 62[0m
 [0mGET /api/v1/users/user/6370055ada9205707e2c6c1c [32m200[0m 369.526 ms - 178[0m
+[0mDELETE /api/v1/orders/order [33m400[0m 9.529 ms - 57[0m
+[0mPOST /api/v1/auths/signin [32m200[0m 496.207 ms - 425[0m
+[0mDELETE /api/v1/orders/order [33m401[0m 266.740 ms - 47[0m
+[0mDELETE /api/v1/orders/order [33m403[0m 302.633 ms - 42[0m
+[0mPOST /api/v1/checkouts/checkout [33m400[0m 1093.802 ms - 2[0m
+[0mPOST /api/v1/checkouts/checkout [32m200[0m 7110.517 ms - 2371[0m
+[0mPATCH /api/v1/products/product/6360e9fec8ef955961ca547d [33m400[0m 10040.544 ms - 107[0m
+[0mPATCH /api/v1/products/product/6360e9fec8ef955961ca547d [33m403[0m 655.039 ms - 42[0m
+[0mPATCH /api/v1/orders/order/update [33m400[0m 14.808 ms - 57[0m
+[0mPATCH /api/v1/orders/order/update [32m200[0m 1061.725 ms - 2371[0m
+[0mGET /api/v1/orders/order [32m200[0m 455.823 ms - 13[0m
+[0mGET /api/v1/orders/order [32m200[0m 548.530 ms - 13[0m
+[0mGET /api/v1/orders/order [32m200[0m 472.278 ms - 13[0m

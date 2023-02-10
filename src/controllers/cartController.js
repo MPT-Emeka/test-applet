@@ -21,15 +21,7 @@ const getSubtotal = (products) => {
 
 const addToCart = async (req, res) => {
   try {
-    //const userID = req.params.id;
     const user = req.user; // identify the user
-    const userId = user._id
-    if (!userId) {  
-      return res
-      .status(403)
-      .json({ success: false, message: "unauthorized user" });
-    }  
-
     const productExist = await Product.findOne({
       _id: req.body.productId,
     }); //check if product to be added to the cart exists in the store
@@ -45,8 +37,6 @@ const addToCart = async (req, res) => {
             message: "item is out of stock, you can check out other drinks."
         })
     }
-    // productExist.amountInStock -= 1;
-    // await productExist.save();
 
     const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
     if (cart) {
@@ -58,7 +48,6 @@ const addToCart = async (req, res) => {
       });
       // ADD TO CART SECTION
       // CHECK IF PRODUCT ALREADY IN CART
-      // let product = cart.products.find(req.body.productId)
       if (product) {
         console.log("product already exists in cart");
         // convert product quantity to a number
@@ -75,7 +64,6 @@ const addToCart = async (req, res) => {
         product.subtotal = product.quantity * productExist.price;
        
         cart.itemCount = checkQuantity(cart.products);
-       // let productToReturn = await Product.findById(id).select("+amountInStock");
 
         cart.totalPrice = parseInt(getSubtotal(cart.products));
         cart.save(cart, (err, cart) => {
@@ -103,7 +91,6 @@ const addToCart = async (req, res) => {
         });
       } else {
         // user has cart but doesnt have product in his cart
-       // console.log(" user has cart but doesnt have product in his cart");
         cart.products.push({
           productID: req.body.productId,
           product: req.body.productId, //change this to product: productExist
@@ -179,14 +166,7 @@ const addToCart = async (req, res) => {
 
 const removeFromCart = async (req, res) => {
   try {
-   // const userID = req.params.id;
     const user = req.user; // identify the user
-    const userId = user._id
-    if (!userId) {  
-      return res
-      .status(403)
-      .json({ success: false, message: "unauthorized user" });
-    }  
     const productExist = await Product.findOne({
       _id: req.body.productId,
     }); //check if product to be removed from the cart exists in the store
@@ -276,12 +256,6 @@ const removeFromCart = async (req, res) => {
 const getCart = async (req, res) => {
   try {
     const user = req.user;
-    const userId = user._id
-    if (!userId) {  
-      return res
-      .status(403)
-      .json({ success: false, message: "unauthorized user" });
-    }  
     // check if cart exists
     let cart = await Cart.findOne({
       _id: user.id,
@@ -319,12 +293,7 @@ const deleteCart = async (req, res) => {
   try {
     // check if cart exists
     const user = req.user;
-    const userId = user._id
-    if (!userId) {  
-      return res
-      .status(403)
-      .json({ success: false, message: "unauthorized user" });
-    }  
+
     const cart = await Cart.findOne({ _id: user._id }); // find the user's cart
     if (cart) {
      // console.log("user has a cart");

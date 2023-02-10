@@ -41,6 +41,7 @@ app.use("/api/v1/orders", orderRouter);
 
 const db = () => {
    mongoose.connect(process.env.DB_URL);
+   
 };
 db()
 mongoose.connection.once("open", () => {

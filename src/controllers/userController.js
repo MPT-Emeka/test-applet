@@ -1,4 +1,3 @@
-const express = require("express");
 const User = require("../models/userModel");
 const ErrorHandler = require("../helpers/userErrorHandler");
 const QueryMethod = require("../helpers/query")
@@ -11,7 +10,7 @@ exports.updateUser = async (req, res) => {
     const userId = user._id
     if (!userId) {   // !user && 
       return res
-        .status(403)
+        .status(401)
         .json({ success: false, message: "unauthorized user" });
     }
 
@@ -36,9 +35,9 @@ exports.getUser = async (req, res) => {
     const id = req.params.id;
     const user = req.user; // identify the user
     const userId = user._id
-    if (!userId) {   // !user && 
+    if (!userId) {   
       return res
-        .status(403)
+        .status(401)
         .json({ success: false, message: "unauthorized user" });
     }
 
@@ -79,13 +78,6 @@ exports.getAllUsers = async (request, response) => {
       return response
       .status(403)
       .json({ success: false, message: "unauthorized user" });
-    }  
-
-    if (user.role.includes("user")) {
-        return response.status(400).send({
-            status: false,
-            message: "only gulp admins can fetch all users"
-        })
     };
 
     let queriedUsers = new QueryMethod(User.find(), request.query)
@@ -101,16 +93,7 @@ exports.getAllUsers = async (request, response) => {
       allUsers: users,
     });
 
-
-
-    // const findAllUsers = await User.find();
-    // return response.status(200).send({
-    //   status: true,
-    //   message: "Users found",
-    //   AllUsers: findAllUsers,
-    // });
   } catch (err) {
-   // console.log(err);
     return response.status(404).send({
       status: false,
       message: "No users found",
@@ -129,20 +112,10 @@ exports.deleteUser = async (request, response) => {
       .json({ success: false, message: "unauthorized user" });
     }  
 
-    // const user = await User.findById(request.headers.id);
-     if (user.role.includes("user")) {
-         return response.status(400).send({
-             status: false,
-             message: "only gulp admins can delete users"
-         })
-     }
-
-
-
     const { id } = request.query;
     const findUser = await User.findByIdAndDelete(id);
     if (findUser) {
-      return response.status(200).send({
+      return response.status(204).send({
         status: true,
         message: "User deleted successfully",
         deletedUser: findUser,
@@ -154,6 +127,6 @@ exports.deleteUser = async (request, response) => {
       });
     }
   } catch (error) {
-    return response.status(400).json({ error })
+    return response.status(400).json( error.message )
   };
 };

@@ -46,8 +46,8 @@ exports.auth = async (req, res, next) => {
 exports.checkUser = (...roles) => {
     return async (req, res, next) => {
     if (!req.user.role.includes(...roles)) {
-        return res.status(401).json({
-        message: "You are not authorized to do this",
+        return res.status(403).json({
+        message: "You are forbidden to do this",
         });
     }
     next();

@@ -11,9 +11,10 @@ app.use(express.json());
 
     
     router.route("/order/create").post(auth, createOrder);
-    router.route("/order/update/:userId").patch(auth, updateOrder);
-    router.route("/order/:userId").get(auth, getUserOrder).delete(auth, deleteOrder);
-    router.route("/allOrders").get(auth, getAllOrders) // add  check user role. 
+    router.route("/order/update").patch(auth, updateOrder);
+    router.route("/order").get(auth, getUserOrder)
+    router.route("/order").delete(auth, checkUser("gulp"), deleteOrder);
+    router.route("/allOrders").get(auth, checkUser("gulp"), getAllOrders);
     
 
 module.exports = router;

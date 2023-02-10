@@ -1,14 +1,3 @@
-const { request } = require("http");
-const { deleteProduct } = require("../controllers/productController");
-const {
-  productName,
-  category,
-  price,
-  description,
-  images,
-  timestamps,
-} = require("../models/productModel");
-
 const productErrorHandler = (err) => {
   console.log(err.message);
   let error = {

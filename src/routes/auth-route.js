@@ -7,7 +7,7 @@ const router = express.Router();
 const {
   signIn,
   signUp,
-  resetPasswordRequestController,
+  forgotPasswordController,
   resetPasswordController,
   logout,
   deleteUser,
@@ -21,8 +21,8 @@ router.post("/logout/:id", auth, logout);
 router.delete("/delete", auth, deleteUser);
 
 router
-  .route("/resetpassword")
-  .put(resetPasswordRequestController)
+  .route("/forgotpassword")
+  .put(forgotPasswordController)
   router.post("/reset-password/:token", resetPasswordController);
 
 module.exports = router;

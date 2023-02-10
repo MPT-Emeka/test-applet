@@ -17,12 +17,6 @@ exports.checkoutOrder = async (req, res) => {
         let order = await Order.findOne({userId});
         
         let user = req.user;
-        
-        if (user.id !== userId) {   // !user && 
-            return res
-              .status(401)
-              .json({ success: false, message: "unauthorized user" });
-          }
 
         if(order) {
             payload = {
@@ -96,19 +90,10 @@ exports.checkoutOrder = async (req, res) => {
     
                   await cartToDelete.delete();
 
-
-                // await OrderedItems.create({
-                //     userId: req.user.id,
-                //     cartId: [orderCart],       //   [...order.cart],
-                //     totalAmount: order.orderAmount
-                // })
-
-              //  await Order.findByIdAndDelete(order._id);
-
                 return res.status(200).send({
                     status : "Payment successfully made",
                     message : "Your orders has been received", 
-                    order  // changed order to orderItems
+                    order  
                 })
                 } 
                 if(callValidate.status === 'error') {
@@ -133,24 +118,3 @@ exports.checkoutOrder = async (req, res) => {
         res.status(400).send(error);
     };
 };
-
-//Get all ordered items
-// exports.getAllOrders = async (req, res) => {
-//     const owner = req.user._id;
-//     try {
-//         const orders = await Order.findOne({ userId : owner }).sort({ date : -1 });
-//         if(orders) {
-//             return res.status(200).json({
-//                 message : "success",
-//                 results : orders.cartId.length,
-//                 data : {
-//                     orders
-//                 }
-//             })
-//         }
-//         res.status(404).send("No orders found");
-//     } catch (error) {
-//         console.log(error)
-//         res.status(500).send(error);
-//     }
-// };

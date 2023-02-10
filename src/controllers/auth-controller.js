@@ -6,12 +6,11 @@ const handleError = require("../helpers/errors");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const cookie = require("cookie-parser");
-// add mongoose*
 
 //cookie-parser expiry date
 const maxAge = 3 * 24 * 60 * 60;
 
-//Creat account for user
+//Create account for user
 exports.signUp = async (req, res) => {
   try {
     const { name, email, password, confirmPassword, phoneNumber, role } = req.body;
@@ -43,6 +42,31 @@ exports.signUp = async (req, res) => {
         token: token,
         createdAt: Date.now(),
       }).save();
+
+
+      let mail = nodemailer.createTransport({
+        service : 'gmail',
+        auth : {
+            user : process.env.HOST_EMAIL,
+            pass : process.env.EMAIL_PASS
+        }
+    });
+
+    let mailOptions = {
+        from : process.env.HOST_EMAIL,
+        to : user.email,
+        subject : "User Sign-up",
+        text : `Thankyou ${user.name} for signing up for gulp drinks service.`
+    }
+    
+    mail.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent : ' + info.response);
+        }
+    })
+
       return res.status(201).json({
         status: "success",
         token,
@@ -111,7 +135,7 @@ exports.logout = async (req, res) => {
   }
 };
 
-const requestPasswordReset = async (req) => {
+const forgotPassword = async (req) => {
   try {
     const user = await User.findOne({ email : req.body.email });
     if (!user) return { message: "User does not exist" };
@@ -187,12 +211,12 @@ const resetPassword = async (userId, token, password) => {
   }
 };
 
-exports.resetPasswordRequestController = async (req, res, next) => {
+exports.forgotPasswordController = async (req, res, next) => {
   try {
-    const requestPasswordResetService = await requestPasswordReset(
+    const forgotPasswordService = await forgotPassword(
       req
     );
-    return res.status(200).json({ requestPasswordResetService });
+    return res.status(200).json({ forgotPasswordService });
   } catch (error) {
     res.status(400).json({ message: error });
   }
